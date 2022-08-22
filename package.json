@@ -18,6 +18,8 @@
   "homepage": "https://github.com/nk-98/Attendance#readme",
   "dependencies": {
     "ejs": "^3.1.8",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.5.2",
+    "nodemon": "^2.0.19"
   }
 }
