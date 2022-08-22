@@ -1,0 +1,19 @@
+{
+  "name": "attendance",
+  "version": "1.0.0",
+  "description": "Attendance system for DUDE",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nk-98/Attendance.git"
+  },
+  "author": "Niko Kokko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nk-98/Attendance/issues"
+  },
+  "homepage": "https://github.com/nk-98/Attendance#readme"
+}
