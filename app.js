@@ -1,6 +1,9 @@
 const express = require("express"); 
 const app = express();
 const config = require("./config");
+const mongoose = require("mongoose");
+
+mongoose.connect(config.db.connection);
 
 app.set("view engine", "ejs");
 
