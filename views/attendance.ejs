@@ -1,0 +1,21 @@
+<%- include("./partials/header") %>
+<div class="container">
+    <h2>Check in for today.</h2>
+    <form action="/attendance" method="POST" class="border p-2">
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input class="form-control" type="date" name="date" id="date" value="<%= new Date().toDateInputValue(); %>" required>
+        </div>
+        <div class="form-group">
+            <label for="start">Start Time:</label>
+            <input class="form-control" type="time" name="start" id="start" required>
+        </div>
+        <div class="form-group">
+            <label for="end">End Time:</label>
+            <input class="form-control" type="time" name="end" id="end">
+        </div>
+        <input type="hidden" name="userId" value="<%= user.id %>">
+        <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+</div>
+<%- include("./partials/footer") %>

@@ -6,8 +6,16 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
+const Attend = require("./models/attend")
 const bodyParser = require("body-parser");
 app.set("view engine", "ejs");
+
+//Script to get current date
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
 
 //Database connection through config + mongoose boilerplate
 mongoose.connect(config.db.connection, {
@@ -108,6 +116,28 @@ app.get("/logout", function(req, res, next) {
       res.redirect("/");
     });
   });
+
+app.get("/attendance", isLoggedIn, (req, res) => {
+    try {
+        res.render("attendance");
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.post("/attendance", async (req, res) => {
+    try {
+        const newAttend = await Attend.create(new Attend({
+            date: req.body.date,
+            start: req.body.start,
+            end: req.body.end,
+            userId: req.body.userId
+        }))
+        res.redirect("/");
+    } catch(err) {
+        console.log(err);
+    }
+})
 
 app.listen(3000, () => {
     console.log("App is running...");
