@@ -9,7 +9,7 @@ const User = require("./models/user");
 const bodyParser = require("body-parser");
 app.set("view engine", "ejs");
 
-
+//Database connection through config + mongoose boilerplate
 mongoose.connect(config.db.connection, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -36,17 +36,17 @@ passport.deserializeUser(function (id, done) {
     })
 })
 
-
-
 passport.use(new localStrategy(User.authenticate()));
 app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 })
 
+//Function to check if the user is logged in. If the user is authenticated, isAuthenticated returns true and this
+//function returns next, which means it will skip to the next route.
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        return next;
+        return next();
     } else {
         res.redirect("/");
     }
@@ -55,16 +55,24 @@ function isLoggedIn(req, res, next) {
 //Routes
 app.get("/", (req, res) => {
         try {
-            res.render("landing");
+            if (req.isAuthenticated()) {
+                res.render("index");
+            } else {
+                res.render("landing");
+            }
         } catch(err) {
             console.log(err);
-            res.send("Error loading the landing page");
+            res.send("Error loading the home/login page");
         }
 })
 
-app.get("/create", (req, res) => {
+app.get("/create", isLoggedIn, (req, res) => {
     try {
-        res.render("create")
+        if(req.user.auth !== "admin") {
+            res.redirect("/");
+        } else {
+            res.render("create");
+        }
     } catch(err) {
         console.log(err);
         res.send("Error trying to load the User creation page");
@@ -90,9 +98,16 @@ app.post("/create", async (req, res) => {
 })
 
 app.post("/login", passport.authenticate("local", {
-    successRedirect: "/create",
-    failureMessage: "Failed to login"
+    successRedirect: "/",
+    failureRedirect: "/"
 }))
+
+app.get("/logout", function(req, res, next) {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect("/");
+    });
+  });
 
 app.listen(3000, () => {
     console.log("App is running...");
