@@ -1,5 +1,25 @@
 <%- include("./partials/header") %>
 <div class="container">
-    <h2>Welcome. Please check in your attendance for today.</h2>
+    <h5>Welcome. Please check in your attendance for today if you haven't done so yet.</h5>
+    <h5>To do so, click <a href="/attendance">This</a> link.</h5>
+ <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% attends.forEach((attend) => { %>         
+            <tr>
+                <td><%= attend.date %></td>
+                <td><%= attend.start %></td>
+                <td><%= attend.end %></td>
+            </tr>
+
+        <%})%>
+    </tbody>
+ </table>
 </div>
 <%- include("./partials/footer") %>

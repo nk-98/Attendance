@@ -8,6 +8,7 @@ const localStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const Attend = require("./models/attend")
 const bodyParser = require("body-parser");
+const user = require("./models/user");
 app.set("view engine", "ejs");
 
 //Script to get current date
@@ -61,10 +62,13 @@ function isLoggedIn(req, res, next) {
 }
 
 //Routes
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
         try {
+            //Loading the index page if the user is logged in, otherwise the landing page(login).
+            //Then finding the attends where userId is equal to the user.id of the person who is currently logged in.
             if (req.isAuthenticated()) {
-                res.render("index");
+                const attends = await Attend.find({userId: req.user.id})
+                res.render("index", {attends});
             } else {
                 res.render("landing");
             }
