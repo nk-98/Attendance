@@ -9,8 +9,11 @@ const User = require("./models/user");
 const Attend = require("./models/attend")
 const bodyParser = require("body-parser");
 const user = require("./models/user");
+const methodOverride = require("method-override");
+const morgan = require("morgan");
 app.set("view engine", "ejs");
-
+app.use(morgan("tiny"));
+app.use(methodOverride("_method"));
 //Script to get current date
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);
@@ -123,6 +126,28 @@ app.get("/logout", function(req, res, next) {
 app.get("/attendance", isLoggedIn, (req, res) => {
     try {
         res.render("attendance");
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.get("/update/:id", isLoggedIn, async (req, res) => {
+    try {
+        const attend = await Attend.findById(req.params.id).exec();
+        res.render("update", {attend});
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.put("/update/:id", isLoggedIn, async (req, res) => {
+    const attend = {
+        start: req.body.start,
+        end: req.body.end
+    }
+    try {
+        await Attend.findByIdAndUpdate(req.params.id, attend, {new: true}).exec();
+        res.redirect("/");
     } catch(err) {
         console.log(err);
     }
