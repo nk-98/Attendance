@@ -1,2 +1,2 @@
 # Attendance
-Config.js is in .gitignore for security reasons. App doesn't work without it.
+Config.js is in .gitignore. App doesn't work without it.
