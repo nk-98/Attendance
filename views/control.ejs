@@ -1,12 +1,16 @@
-<%- include("./partials/header") %>
+<%- include("./partials/header.ejs") %>
+
 <div class="container">
-    <h5>Welcome. Please check in your attendance for today if you haven't done so yet.</h5>
-    <h5>To do so, click <a href="/attendance">This</a> link.</h5>
 <div class="tbl mt-5">
-    <h5>Your recent Check In's:</h5>
+    <form class="form-inline my-2 my-lg-2 d-inline-block float-right" action="/control/search" method="GET">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search by username" aria-label="Search" name="term">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <h5 class="my-2 d-inline-block h5">Recent Check In's</h5>
  <table class="table border">
     <thead>
         <tr>
+            <th scope="col">Username</th>
             <th scope="col">Date</th>
             <th scope="col">Start Time</th>
             <th scope="col">End Time</th>
@@ -17,6 +21,7 @@
         <% attends.sort((a, b) => {return b.date - a.date}) %>
         <% attends.forEach((attend) => { %>         
             <tr>
+                <td><%= attend.username %></td>
                 <td><%= attend.date %></td>
                 <td><%= attend.start %></td>
                 <td><%= attend.end %></td>
@@ -28,4 +33,5 @@
  </table>
 </div>
 </div>
-<%- include("./partials/footer") %>
+
+<%- include("./partials/footer.ejs") %>

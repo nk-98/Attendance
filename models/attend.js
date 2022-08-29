@@ -12,8 +12,17 @@ const AttendSchema = new mongoose.Schema( {
         type: String
     },
     userId: {
-        type: String
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
+        required: true
     }
+})
+
+AttendSchema.index({
+	"$**": "text"
 })
 
 module.exports = mongoose.model("Attend", AttendSchema);

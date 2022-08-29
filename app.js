@@ -63,6 +63,15 @@ function isLoggedIn(req, res, next) {
     }
 }
 
+//Same as above but to check if the user is Admin
+function isAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.auth === "admin") {
+        return next();
+    } else {
+        res.redirect("/");
+    }
+}
+
 //Routes
 app.get("/", async (req, res) => {
         try {
@@ -80,13 +89,9 @@ app.get("/", async (req, res) => {
         }
 })
 
-app.get("/create", isLoggedIn, (req, res) => {
+app.get("/create", isAdmin, (req, res) => {
     try {
-        if(req.user.auth !== "admin") {
-            res.redirect("/");
-        } else {
-            res.render("create");
-        }
+        res.render("create");
     } catch(err) {
         console.log(err);
         res.send("Error trying to load the User creation page");
@@ -140,6 +145,28 @@ app.get("/update/:id", isLoggedIn, async (req, res) => {
     }
 })
 
+app.get("/control", isAdmin, async (req, res) => {
+    try {
+            const attends = await Attend.find({});
+            res.render("control", {attends});
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.get("/control/search", isAdmin, async (req, res) => {
+    try {
+        const attends = await Attend.find({
+            $text: {
+                $search: req.query.term
+            }
+        })
+        res.render("control", {attends});
+    } catch(err) {
+        console.log(err);
+    }
+})
+
 app.put("/update/:id", isLoggedIn, async (req, res) => {
     const attend = {
         start: req.body.start,
@@ -159,7 +186,8 @@ app.post("/attendance", async (req, res) => {
             date: req.body.date,
             start: req.body.start,
             end: req.body.end,
-            userId: req.body.userId
+            userId: req.body.userId,
+            username: req.body.username
         }))
         console.log(newAttend);
         res.redirect("/");
