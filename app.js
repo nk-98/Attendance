@@ -24,7 +24,6 @@ mongoose.connect(config.db.connection, {
     useUnifiedTopology: true
 });
 
-//Boilerplate middleware for using packages mostly
 app.use(session({
     secret: config.secret.keyOne,
     resave: false,
@@ -67,7 +66,7 @@ app.get("/", async (req, res) => {
             //Loading the index page if the user is logged in, otherwise the landing page(login).
             //Then finding the attends where userId is equal to the user.id of the person who is currently logged in.
             if (req.isAuthenticated()) {
-                const attends = await Attend.find({userId: req.user.id})
+                const attends = await Attend.find({userId: req.user.id}).exec();
                 res.render("index", {attends});
             } else {
                 res.render("landing");
@@ -137,6 +136,7 @@ app.post("/attendance", async (req, res) => {
             end: req.body.end,
             userId: req.body.userId
         }))
+        console.log(newAttend);
         res.redirect("/");
     } catch(err) {
         console.log(err);
