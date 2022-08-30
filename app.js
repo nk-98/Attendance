@@ -11,6 +11,7 @@ const Leave = require("./models/leave")
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
+const user = require("./models/user");
 app.set("view engine", "ejs");
 app.use(morgan("tiny"));
 app.use(methodOverride("_method"));
@@ -162,10 +163,72 @@ app.post("/leave", isLoggedIn, async (req, res) => {
     }
 })
 
+app.get("/leaveUpdate/:id", isLoggedIn, async (req, res) => {
+    try {
+        const leave = await Leave.findById(req.params.id).exec();
+        res.render("leaveUpdate", {leave});
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.put("/leaveUpdate/:id", isLoggedIn, async (req, res) => {
+    const leave = {
+        date: req.body.date,
+        absent: req.body.whole ? req.body.whole : req.body.start + "-" + req.body.end,
+        reason: req.body.reason
+    }
+    try {
+        await Leave.findByIdAndUpdate(req.params.id, leave, {new: true}).exec();
+        if(req.user.auth === "admin") {
+            res.redirect("/control");
+        } else {
+            res.redirect("/");
+        }
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.get("/leaveApprove/:id", isAdmin, async (req, res) => {
+    try {
+        await Leave.findByIdAndUpdate(req.params.id, {status: "Approved"}, {new: true}).exec();
+        res.redirect("/control");
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.get("/leaveReject/:id", isAdmin, async (req, res) => {
+    try {
+        await Leave.findByIdAndUpdate(req.params.id, {status: "Rejected"}, {new: true}).exec();
+        res.redirect("/control");
+    } catch(err) {
+        console.log(err);
+    }
+})
+
 app.get("/update/:id", isLoggedIn, async (req, res) => {
     try {
         const attend = await Attend.findById(req.params.id).exec();
         res.render("update", {attend});
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.put("/update/:id", isLoggedIn, async (req, res) => {
+    const attend = {
+        start: req.body.start,
+        end: req.body.end
+    }
+    try {
+        await Attend.findByIdAndUpdate(req.params.id, attend, {new: true}).exec();
+        if(req.user.auth === "admin") {
+            res.redirect("/control");
+        } else {
+            res.redirect("/");
+        }
     } catch(err) {
         console.log(err);
     }
@@ -194,19 +257,6 @@ app.get("/control/search", isAdmin, async (req, res) => {
             }
         })
         res.render("control", {attends, leaves});
-    } catch(err) {
-        console.log(err);
-    }
-})
-
-app.put("/update/:id", isLoggedIn, async (req, res) => {
-    const attend = {
-        start: req.body.start,
-        end: req.body.end
-    }
-    try {
-        await Attend.findByIdAndUpdate(req.params.id, attend, {new: true}).exec();
-        res.redirect("/");
     } catch(err) {
         console.log(err);
     }

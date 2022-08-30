@@ -1,8 +1,7 @@
-<%- include("./partials/header.ejs") %>
-
+<%- include("./partials/header") %>
 <div class="container">
-    <h2>Send Absence Notification</h2>
-    <form action="/leave" method="POST" class="border p-2">
+    <h2>Update</h2>
+    <form action="/leaveUpdate/<%= leave._id %>?_method=PUT" method="POST" class="border p-2">
         <div class="form-group">
             <label for="date">Date:</label>
             <input class="form-control" type="date" name="date" id="date" value="<%= new Date().toDateInputValue(); %>" required>
@@ -22,13 +21,12 @@
         </div>
         <div class="form-group">
             <label for="reason">Reason for Absence:</label>
-            <textarea id="reason" class="form-control" name="reason" rows="4" cols="50" required></textarea>
+            <textarea id="reason" class="form-control" name="reason" rows="4" cols="50" required><%= leave.reason %></textarea>
         </div>
         <input type="hidden" name="userId" value="<%= user.id %>">
         <input type="hidden" name="username" value="<%= user.username %>">
-        <input type="hidden" name="status" value="Waiting for approval">
+        <input type="hidden" name="status" value="<%= leave.status %>">
         <button class="btn btn-primary" type="submit">Send</button>
     </form>
 </div>
-
-<%- include("./partials/footer.ejs") %>
+<%- include("./partials/footer") %>

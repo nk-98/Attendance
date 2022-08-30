@@ -52,6 +52,10 @@
                 <td><%= leave.absent %></td>
                 <td><%= leave.reason %></td>
                 <td><%= leave.status %></td>
+                <td><a href="/leaveUpdate/<%= leave._id %>" class="d-block">Edit</a>
+                    <a href="/leaveApprove/<%= leave._id %>" class="d-block text-success">Approve</a>
+                    <a href="/leaveReject/<%= leave._id %>" class="d-block text-danger">Reject</a>
+                </td>
             </tr>
         <%})%>
     </tbody>
