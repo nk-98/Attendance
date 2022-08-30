@@ -27,5 +27,30 @@
     </tbody>
  </table>
 </div>
+<div class="tbl mt-5">
+    <h5>Your recent Absence Notifications:</h5>
+ <table class="table border">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Absent for</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% leaves.sort((a, b) => {return b.date - a.date}) %>
+        <% leaves.forEach((leave) => { %>         
+            <tr>
+                <td><%= leave.date %></td>
+                <td><%= leave.absent %></td>
+                <td><%= leave.reason %></td>
+                <td><%= leave.status %></td>
+            </tr>
+        <%})%>
+    </tbody>
+ </table>
+</div>
 </div>
 <%- include("./partials/footer") %>

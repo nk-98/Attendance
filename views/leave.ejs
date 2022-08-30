@@ -1,0 +1,34 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="container">
+    <h2>Send Absence Notification</h2>
+    <form action="/leave" method="POST" class="border p-2">
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input class="form-control" type="date" name="date" id="date" value="<%= new Date().toDateInputValue(); %>" required>
+        </div>
+        <div class="form-group">
+            <h5>Absent for:</h5>
+            <label for="start">Start Time:</label>
+            <input class="form-control" type="time" name="start" id="start">
+        </div>
+        <div class="form-group">
+            <label for="end">End Time:</label>
+            <input class="form-control" type="time" name="end" id="end">
+        </div>
+        <div class="form-group">
+            <label for="whole">Whole Day:</label>
+            <input type="checkbox" name="whole" id="whole" value="Whole Day">
+        </div>
+        <div class="form-group">
+            <label for="reason">Reason for Absence:</label>
+            <textarea id="reason" class="form-control" name="reason" rows="4" cols="50"></textarea>
+        </div>
+        <input type="hidden" name="userId" value="<%= user.id %>">
+        <input type="hidden" name="username" value="<%= user.username %>">
+        <input type="hidden" name="status" value="Waiting for approval">
+        <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+</div>
+
+<%- include("./partials/footer.ejs") %>

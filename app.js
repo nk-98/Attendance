@@ -7,8 +7,8 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const Attend = require("./models/attend")
+const Leave = require("./models/leave")
 const bodyParser = require("body-parser");
-const user = require("./models/user");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 app.set("view engine", "ejs");
@@ -79,7 +79,8 @@ app.get("/", async (req, res) => {
             //Then finding the attends where userId is equal to the user.id of the person who is currently logged in.
             if (req.isAuthenticated()) {
                 const attends = await Attend.find({userId: req.user.id}).exec();
-                res.render("index", {attends});
+                const leaves = await Leave.find({userId: req.user.id}).exec();
+                res.render("index", {attends, leaves});
             } else {
                 res.render("landing");
             }
@@ -136,6 +137,31 @@ app.get("/attendance", isLoggedIn, (req, res) => {
     }
 })
 
+app.get("/leave", isLoggedIn, (req, res) => {
+    try {
+        res.render("leave");
+    } catch(err) {
+        console.log(err);
+    }
+})
+
+app.post("/leave", isLoggedIn, async (req, res) => {
+    try {
+        const newLeave = await Leave.create(new Leave({
+            date: req.body.date,
+            absent: req.body.whole ? req.body.whole : req.body.start + "-" + req.body.end,
+            reason: req.body.reason,
+            status: req.body.status,
+            userId: req.body.userId,
+            username: req.body.username
+        }))
+        console.log(newLeave);
+        res.redirect("/");
+    } catch(err) {
+        console.log(err)
+    }
+})
+
 app.get("/update/:id", isLoggedIn, async (req, res) => {
     try {
         const attend = await Attend.findById(req.params.id).exec();
@@ -147,8 +173,9 @@ app.get("/update/:id", isLoggedIn, async (req, res) => {
 
 app.get("/control", isAdmin, async (req, res) => {
     try {
-            const attends = await Attend.find({});
-            res.render("control", {attends});
+            const leaves = await Leave.find({}).exec();
+            const attends = await Attend.find({}).exec();
+            res.render("control", {attends, leaves});
     } catch(err) {
         console.log(err);
     }
@@ -161,7 +188,12 @@ app.get("/control/search", isAdmin, async (req, res) => {
                 $search: req.query.term
             }
         })
-        res.render("control", {attends});
+        const leaves = await Leave.find({
+            $text: {
+                $search: req.query.term
+            }
+        })
+        res.render("control", {attends, leaves});
     } catch(err) {
         console.log(err);
     }
