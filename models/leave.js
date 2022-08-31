@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const LeaveSchema = new mongoose.Schema( {
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     absent: {

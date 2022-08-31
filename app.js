@@ -1,5 +1,6 @@
 const express = require("express"); 
 const app = express();
+const scripts = require("./scripts");
 const session = require("express-session");
 const config = require("./config");
 const mongoose = require("mongoose");
@@ -15,12 +16,8 @@ const user = require("./models/user");
 app.set("view engine", "ejs");
 app.use(morgan("tiny"));
 app.use(methodOverride("_method"));
-//Script to get current date
-Date.prototype.toDateInputValue = (function() {
-    var local = new Date(this);
-    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-    return local.toJSON().slice(0,10);
-});
+app.use(express.static("public"));
+
 
 //Database connection through config + mongoose boilerplate
 mongoose.connect(config.db.connection, {
@@ -271,7 +268,6 @@ app.post("/attendance", async (req, res) => {
             userId: req.body.userId,
             username: req.body.username
         }))
-        console.log(newAttend);
         res.redirect("/");
     } catch(err) {
         console.log(err);

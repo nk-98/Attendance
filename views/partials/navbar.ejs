@@ -1,30 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">DUDE Attendance</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav">
+  <a class="navbar-brand" href="#">
+    <img class="navbar-brand" width="60" height="60" src="https://i0.wp.com/dudeunlimited.fi/wp-content/uploads/2018/08/dude2-logo.png?zoom=2&resize=150%2C150&ssl=1">
+  </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto pagination">
         <li class="nav-item">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" id="navA" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <% if(user && user.auth === "admin"){%>
           <li class="nav-item">
-            <a class="nav-link" href="/control">Control</a>
+            <a class="nav-link" id="navA" href="/control">Control</a>
           </li>
         <li class="nav-item">
-          <a class="nav-link" href="/create">Create New User</a>
+          <a class="nav-link" id="navA" href="/create">Create New User</a>
         </li>
         <%}if(user){%>
           <li class="nav-item">
-            <a class="nav-link" href="/attendance">Send Attendance</a>
+            <a class="nav-link" id="navA" href="/attendance">Send Attendance</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/leave">Send Leave</a>
+            <a class="nav-link" id="navA" href="/leave">Send Leave</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" id="navA" href="/logout">Logout</a>
           </li>
         <%}%>
       </ul>

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const AttendSchema = new mongoose.Schema( {
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     start: {
@@ -22,7 +22,8 @@ const AttendSchema = new mongoose.Schema( {
 })
 
 AttendSchema.index({
-	"$**": "text"
+	"$**": "text",
+    date: "date"
 })
 
 module.exports = mongoose.model("Attend", AttendSchema);
