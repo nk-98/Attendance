@@ -1,3 +1,4 @@
+
 //Gets current date, used in the Attendance and Leave forms.
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);
@@ -5,6 +6,15 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 
-const removeDash = (str) => {
-    return str.replace("-", "");
+
+module.exports = {
+
+dateFix: (str) => {
+    const newStr = str.replaceAll("-", "");
+    return parseInt(newStr);
+},
+
+
+
+
 }

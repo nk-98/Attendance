@@ -5,9 +5,9 @@
     <div class="navbar p-0" id="navbarSupportedContent">
         <h5 class="my-2 h5 form-inline">Recent Check In's</h5>
     <form class="form-inline my-2 my-lg-2 float-right" action="/control/search" method="GET">
-        <input type="date" class="form-control mx-2" name="date1" id="date1">
+        <input type="date" class="form-control mx-2" name="date1" id="date1" aria-label="Search">
         <h2 class="mx-2 b">-</h2>
-        <input type="date" class="form-control mx-2" name="date2" id="date2" value="<%= new Date().toDateInputValue(); %>">
+        <input type="date" class="form-control mx-2" name="date2" id="date2" aria-label="Search" value="<%= new Date().toDateInputValue(); %>">
         <input class="form-control mx-sm-2 mx-2" type="search" placeholder="Username/status/etc.." aria-label="Search" name="term">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
