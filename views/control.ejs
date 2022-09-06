@@ -1,9 +1,8 @@
 <%- include("./partials/header.ejs") %>
-
-<div class="container">
+<div class="container" id="controlContainer">
 <div class="tbl mt-5">
     <div class="navbar p-0" id="navbarSupportedContent">
-        <h5 class="my-2 h5 form-inline">Recent Check In's</h5>
+        <h5 class="my-2 h5 form-inline">Check In's</h5>
     <form class="form-inline my-2 my-lg-2 float-right" action="/control/search" method="GET">
         <input type="date" class="form-control mx-2" name="date1" id="date1" aria-label="Search">
         <h2 class="mx-2 b">-</h2>
@@ -12,7 +11,8 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
       </div>
- <table class="table border">
+      <div id="tables">
+ <table class="table border" id="table">
     <thead>
         <tr>
             <th scope="col">Username</th>
@@ -36,13 +36,13 @@
         <%})%>
     </tbody>
  </table>
- <h5 class="form-inline h5 mb-3">Recent Absence Notifications</h5>
- <table class="table border">
+ <h5 class="form-inline h5 mb-3">Absence Notifications</h5>
+ <table class="table border" id="table">
     <thead>
         <tr>
             <th scope="col">Username</th>
             <th scope="col">Date</th>
-            <th scope="col">Absent for</th>
+            <th scope="col">Absent</th>
             <th scope="col">Reason</th>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
@@ -67,6 +67,13 @@
     </tbody>
  </table>
 </div>
+ <button class="btn btn-primary" id="pdfDownload">Download PDF</button> 
 </div>
-
+</div>
+<script type="text/javascript">window.onload = () => {
+    document.getElementById("pdfDownload").addEventListener("click", () => {
+        const container = this.document.getElementById("tables");
+        html2pdf().from(container).save();
+    })}
+</script>
 <%- include("./partials/footer.ejs") %>

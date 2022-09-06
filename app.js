@@ -10,6 +10,8 @@ const User = require("./models/user");
 const Attend = require("./models/attend")
 const Leave = require("./models/leave")
 const bodyParser = require("body-parser");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const user = require("./models/user");
@@ -241,9 +243,9 @@ app.put("/update/:id", isLoggedIn, async (req, res) => {
 app.get("/control", isAdmin, async (req, res) => {
     //rendering the control page for admins with leaves and attends.
     try {
-            const leaves = await Leave.find({}).exec();
-            const attends = await Attend.find({}).exec();
-            res.render("control", {attends, leaves  });
+        const leaves = await Leave.find({}).exec();
+        const attends = await Attend.find({}).exec();
+        res.render("control", {attends, leaves  });
     } catch(err) {
         console.log(err);
     }
@@ -261,7 +263,6 @@ app.get("/control/search", isAdmin, async(req, res) => {
             const leaves = await Leave.find({
                 $text: {$search: req.query.term}
             }).exec();
-            console.log(attends, leaves);
             res.render("control", {attends, leaves});
         } else if (req.query.term === "") {
             const attends = await Attend.find({
@@ -276,7 +277,6 @@ app.get("/control/search", isAdmin, async(req, res) => {
                     { date: {$lte: req.query.date2}}
                 ]
             }).exec();
-            console.log(attends, leaves);
             res.render("control", {attends, leaves});
         } else {
             const attends = await Attend.find({
