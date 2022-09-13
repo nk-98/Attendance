@@ -67,13 +67,6 @@
     </tbody>
  </table>
 </div>
- <button class="btn btn-primary" id="pdfDownload">Download PDF</button> 
 </div>
 </div>
-<script type="text/javascript">window.onload = () => {
-    document.getElementById("pdfDownload").addEventListener("click", () => {
-        const container = this.document.getElementById("tables");
-        html2pdf().from(container).save();
-    })}
-</script>
 <%- include("./partials/footer.ejs") %>
