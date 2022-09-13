@@ -10,9 +10,8 @@
         <input class="form-control mx-sm-2 mx-2" type="search" placeholder="Username/status/etc.." aria-label="Search" name="term">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-      </div>
-      <div id="tables">
- <table class="table border" id="table">
+    </div>
+ <table class="table border" id="ciTable">
     <thead>
         <tr>
             <th scope="col">Username</th>
@@ -58,9 +57,15 @@
                 <td><%= leave.reason %></td>
                 <td><%= leave.status %></td>
                 <td>
-                    <a href="/leaveUpdate/<%= leave._id %>" class="d-block">Edit</a>
-                    <a href="/leaveApprove/<%= leave._id %>" class="d-block text-success">Approve</a>
-                    <a href="/leaveReject/<%= leave._id %>" class="d-block text-danger">Reject</a>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Select
+                        </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a href="/leaveUpdate/<%= leave._id %>" class="d-block text-primary dropdown-item">Edit</a>
+                    <a href="/leaveApprove/<%= leave._id %>" class="d-block text-success dropdown-item">Approve</a>
+                    <a href="/leaveReject/<%= leave._id %>" class="d-block text-danger dropdown-item">Reject</a>
+                    </div>
                 </td>
             </tr>
         <%})%>

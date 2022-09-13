@@ -6,8 +6,3 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 
-/*<script>window.onload = () => {
-    document.getElementById("download").addEventListener("click", () => {
-        const container = this.document.getElementById("controlContainer");
-        html2pdf().from(container).save();
-    })}</script>*/
