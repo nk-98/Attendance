@@ -88,6 +88,7 @@
     const excelExport = (fileExtension, fileName) => {
         const ciTbl = document.getElementById("ciTable");
         const anTbl = document.getElementById("anTable");
+
         if (fileName === "ciSheet") {
         const wb = XLSX.utils.table_to_book(ciTbl, { sheet: "sheet" });
         return XLSX.writeFile(wb, fileName+"."+fileExtension || ("MySheetName." + (fileExtension || "xlsx")));
