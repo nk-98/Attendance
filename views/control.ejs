@@ -1,8 +1,9 @@
 <%- include("./partials/header.ejs") %>
+<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.18.11/package/dist/xlsx.full.min.js"></script>
 <div class="container" id="controlContainer">
 <div class="tbl mt-5">
     <div class="navbar p-0" id="navbarSupportedContent">
-        <h5 class="my-2 h5 form-inline">Check In's</h5>
+        <h5 class="my-2 h5 form-inline">Check In's</h5>   
     <form class="form-inline my-2 my-lg-2 float-right" action="/control/search" method="GET">
         <input type="date" class="form-control mx-2" name="date1" id="date1" aria-label="Search">
         <h2 class="mx-2 b">-</h2>
@@ -35,8 +36,8 @@
         <%})%>
     </tbody>
  </table>
- <h5 class="form-inline h5 mb-3">Absence Notifications</h5>
- <table class="table border" id="table">
+ <h5 class="form-inline h5 my-3">Absence Notifications</h5>
+ <table class="table border" id="anTable">
     <thead>
         <tr>
             <th scope="col">Username</th>
@@ -71,7 +72,30 @@
         <%})%>
     </tbody>
  </table>
+ <div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Convert to Excel
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" onclick="excelExport('xlsx', 'ciSheet')">Check In's</a>
+      <a class="dropdown-item" onclick="excelExport('xlsx', 'anSheet')">Absence Notifications</a>
+    </div>
+  </div>
 </div>
 </div>
 </div>
+<script>
+    const excelExport = (fileExtension, fileName) => {
+        const ciTbl = document.getElementById("ciTable");
+        const anTbl = document.getElementById("anTable");
+        if (fileName === "ciSheet") {
+        const wb = XLSX.utils.table_to_book(ciTbl, { sheet: "sheet" });
+        return XLSX.writeFile(wb, fileName+"."+fileExtension || ("MySheetName." + (fileExtension || "xlsx")));
+        }
+        else if (fileName === "anSheet") {
+        const wb = XLSX.utils.table_to_book(anTbl, { sheet: "sheet" });
+        return XLSX.writeFile(wb, fileName+"."+fileExtension || ("MySheetName." + (fileExtension || "xlsx")));
+        }
+    }
+</script>
 <%- include("./partials/footer.ejs") %>
