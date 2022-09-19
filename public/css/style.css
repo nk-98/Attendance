@@ -7,10 +7,24 @@ body {
     color: #9C0000;
 }
 
+#infoText {
+    color:#9C0000;
+}
+
+#footerText {
+    font-size: large;
+    color: #9C0000;
+}
+
 #navA:hover {
     color: #FFCA00
 }
 
 .container {
     margin-top: 10px;
+}
+
+#footer {
+    border-top: solid;
+    border-color: rgb(248,249,250);
 }
